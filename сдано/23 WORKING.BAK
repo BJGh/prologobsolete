@@ -1,0 +1,37 @@
+domains
+list_d = integer* %список из целочисленных элементов
+predicates
+nondeterm last(list_d) %предикат, который выводит последний элемент списка.
+nondeterm run
+nondeterm do(char)
+nondeterm readlist(list_d) %предикат ввода списка с клавиатуры.
+clauses
+ last([Element]):-!.
+  last([_|Tail]):-
+    last(Tail).
+%ввод списка с клавиатуры
+readlist([Head|Tail]):-
+write("enter element of the list. Entering an empty value will finish op. INPUT >> "),
+readint(Head),!,readlist(Tail).
+readlist([]). %ввод пустой строки, конец рекурсии.
+
+run:-%меню программы
+write("Welcome"),nl,
+write("enter 1 to start the program"),nl,
+write("enter 0 to exit"),nl,
+write("Choose the command >>"),readchar(N),write(N),nl, %ввод выбора пользователя.
+do(N),%вызов предиката do.
+run.
+do('1'):-
+readlist(L),nl, %вызов предиката ввода списка.
+write("Entered a list L = "),write(L),nl, %вывод исходного списка.
+ write("The last element of your list = "),last(L,X),nl. %вызов предиката, который выводит последний элемент исходного списка.
+
+do('0'):-
+write("Done"),exit.
+do(_):-
+write("wrong choice").
+
+
+goal
+run. %вызов меню программы.
